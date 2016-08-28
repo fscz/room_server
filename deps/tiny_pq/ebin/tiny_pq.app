@@ -1,0 +1,7 @@
+{application,tiny_pq,
+             [{description,"TinyPQ: A simple priority queue based on gb_trees"},
+              {vsn,"0.1.0"},
+              {registered,[]},
+              {modules,[tiny_pq]},
+              {applications,[kernel,stdlib]},
+              {env,[]}]}.

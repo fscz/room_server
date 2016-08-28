@@ -1,0 +1,50 @@
+2016-08-25 03:08:37.555 [notice] <0.467.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 03:08:37.557 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 03:08:37.558 [info] <0.467.0> Route: "/about.php"Url
+[]
+2016-08-25 03:08:37.558 [error] <0.467.0> GET /about.php [roomserver] 404 2ms
+2016-08-25 03:42:31.384 [notice] <0.479.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 03:42:31.386 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 03:42:31.387 [info] <0.479.0> Route: "/"Url
+[]
+2016-08-25 03:42:31.387 [info] <0.264.0>@boss_router_controller:route:171 Boss Route roomserver "room" "index" []
+2016-08-25 03:42:31.390 [notice] <0.479.0>@boss_compiler:compile:47 Compile file "/home/fscz/room_server/src/websocket/roomserver_room_websocket.erl" with options [{out_dir,"/home/fscz/room_server/ebin"},{include_dirs,["/home/fscz/room_server/include"]},{compiler_options,[{parse_transform,lager_transform},return_errors]}] 
+2016-08-25 03:42:31.435 [notice] <0.479.0>@boss_controller_adapter_pmod:action:91 Request Method: 'GET', Tokens: []
+2016-08-25 03:42:31.437 [info] <0.479.0> GET / [roomserver] 200 51ms
+2016-08-25 11:59:38.071 [notice] <0.488.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 11:59:38.073 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 11:59:38.074 [info] <0.488.0> Route: "/"Url
+[]
+2016-08-25 11:59:38.074 [info] <0.264.0>@boss_router_controller:route:171 Boss Route roomserver "room" "index" []
+2016-08-25 11:59:38.076 [notice] <0.488.0>@boss_compiler:compile:47 Compile file "/home/fscz/room_server/src/websocket/roomserver_room_websocket.erl" with options [{out_dir,"/home/fscz/room_server/ebin"},{include_dirs,["/home/fscz/room_server/include"]},{compiler_options,[{parse_transform,lager_transform},return_errors]}] 
+2016-08-25 11:59:38.133 [notice] <0.488.0>@boss_controller_adapter_pmod:action:91 Request Method: 'GET', Tokens: []
+2016-08-25 11:59:38.135 [info] <0.488.0> GET / [roomserver] 200 61ms
+2016-08-25 15:42:05.858 [notice] <0.500.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 15:42:05.863 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 15:42:05.865 [info] <0.500.0> Route: "/"Url
+[]
+2016-08-25 15:42:05.865 [info] <0.264.0>@boss_router_controller:route:171 Boss Route roomserver "room" "index" []
+2016-08-25 15:42:05.869 [notice] <0.500.0>@boss_compiler:compile:47 Compile file "/home/fscz/room_server/src/websocket/roomserver_room_websocket.erl" with options [{out_dir,"/home/fscz/room_server/ebin"},{include_dirs,["/home/fscz/room_server/include"]},{compiler_options,[{parse_transform,lager_transform},return_errors]}] 
+2016-08-25 15:42:05.933 [notice] <0.500.0>@boss_controller_adapter_pmod:action:91 Request Method: 'GET', Tokens: []
+2016-08-25 15:42:05.936 [info] <0.500.0> GET / [roomserver] 200 73ms
+2016-08-25 17:56:39.064 [notice] <0.503.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 17:56:39.067 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 17:56:39.069 [info] <0.503.0> Route: "/admin/ajax.php"Url
+[]
+2016-08-25 17:56:39.070 [error] <0.503.0> GET /admin/ajax.php [roomserver] 404 3ms
+2016-08-25 21:37:08.873 [notice] <0.524.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 21:37:08.875 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 21:37:08.876 [info] <0.524.0> Route: "/"Url
+[]
+2016-08-25 21:37:08.881 [info] <0.264.0>@boss_router_controller:route:171 Boss Route roomserver "room" "index" []
+2016-08-25 21:37:08.884 [notice] <0.524.0>@boss_compiler:compile:47 Compile file "/home/fscz/room_server/src/websocket/roomserver_room_websocket.erl" with options [{out_dir,"/home/fscz/room_server/ebin"},{include_dirs,["/home/fscz/room_server/include"]},{compiler_options,[{parse_transform,lager_transform},return_errors]}] 
+2016-08-25 21:37:08.926 [notice] <0.524.0>@boss_controller_adapter_pmod:action:91 Request Method: 'GET', Tokens: []
+2016-08-25 21:37:08.929 [info] <0.524.0> GET / [roomserver] 200 54ms
+2016-08-25 21:49:03.618 [notice] <0.532.0>@boss_web_controller_handle_request:handle_request:23 ApplicationForPath roomserver
+2016-08-25 21:49:03.620 [info] <0.264.0> Loading routes from "/home/fscz/room_server/priv/roomserver.routes" ....
+2016-08-25 21:49:03.621 [info] <0.532.0> Route: "/"Url
+[]
+2016-08-25 21:49:03.621 [info] <0.264.0>@boss_router_controller:route:171 Boss Route roomserver "room" "index" []
+2016-08-25 21:49:03.623 [notice] <0.532.0>@boss_compiler:compile:47 Compile file "/home/fscz/room_server/src/websocket/roomserver_room_websocket.erl" with options [{out_dir,"/home/fscz/room_server/ebin"},{include_dirs,["/home/fscz/room_server/include"]},{compiler_options,[{parse_transform,lager_transform},return_errors]}] 
+2016-08-25 21:49:03.669 [notice] <0.532.0>@boss_controller_adapter_pmod:action:91 Request Method: 'GET', Tokens: []
+2016-08-25 21:49:03.671 [info] <0.532.0> GET / [roomserver] 200 51ms

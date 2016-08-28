@@ -1,0 +1,149 @@
+-module(roomserver_room_websocket, [Req, SessionId]).
+-behaviour(boss_service_handler).
+
+-record(state, {users, channels}).
+
+-compile(export_all).
+%-import(ws_lib, [notify_all/2, notify_all_except_me/3]).
+
+% helpers
+
+rand() ->
+    random:uniform(134217728).
+
+
+channel_notify(WebSocketId, Notification) ->
+    WebSocketId ! {text, jsx:encode(Notification)}.
+
+
+channel_notify_other_members(WebSocketId, Notification, State) ->
+    #state{users=Users, channels=Channels} = State,
+    case dict:find(WebSocketId, Users) of
+	{ok, ChannelId} ->
+	    Members = dict:fetch(ChannelId, Channels),
+	    lists:foreach(fun(Member) -> if
+					     Member /= WebSocketId ->
+						 channel_notify(Member, Notification);
+					     true ->
+						 ok
+					 end 
+			  end, Members),
+	    channel_ok(WebSocketId);	
+	error ->
+	    channel_error(WebSocketId, "not registered to a channel")
+    end.
+
+channel_ok(WebSocketId) ->
+    channel_ok(WebSocketId, []).
+
+channel_ok(WebSocketId, Params) ->
+    channel_notify(WebSocketId, [{<<"type">>, <<"ok">>}|Params]).
+
+channel_error(WebSocketId, Message) ->    
+    channel_notify(WebSocketId, [{<<"type">>, <<"error">>}, {<<"message">>, list_to_binary(Message)}]).
+
+channel_new(WebSocketId, State) ->
+    #state{users=Users, channels=Channels} = State,
+    case dict:find(WebSocketId, Users) of
+	{ok, Value} -> % User already in channel, so deny
+	    channel_error(WebSocketId, "cannot join more than one channel"),
+	    {noreply, State};
+	error ->
+	    F = fun(Self, R) -> 		     		      
+			case dict:find(R, Channels) of
+			    {ok, Value} ->
+				Self(rand());
+			    error ->
+				R
+			end
+		end,
+	    ChannelId = F(F, rand()),
+	    channel_ok(WebSocketId, [{<<"channel">>, ChannelId}]),
+	    {noreply, #state{users=dict:store(WebSocketId, ChannelId, Users), channels=dict:store(ChannelId, [WebSocketId], Channels)}}
+    end.
+
+channel_leave(WebSocketId, State) ->
+    #state{users=Users, channels=Channels} = State,
+    case dict:find(WebSocketId, Users) of
+	{ok, ChannelId} -> %erase cannot fail if user found		
+	    NewMembers = lists:delete(WebSocketId, dict:fetch(ChannelId, Channels)),
+	    NewUsers = dict:erase(WebSocketId, Users),
+	    channel_ok(WebSocketId),
+	    if 
+		NewMembers == [] ->
+		    {noreply, #state{users=NewUsers, channels=dict:erase(ChannelId, Channels)}};
+		true ->
+		    {noreply, #state{users=NewUsers, channels=dict:store(ChannelId, NewMembers, Channels)}}
+	    end;
+	error -> 
+	    channel_error(WebSocketId, "cannot leave channel. user unknown."),
+	    {noreply, State}
+    end.
+
+channel_join(WebSocketId, MessageMap, State) ->
+    #state{users=Users, channels=Channels} = State,
+    case dict:find(WebSocketId, Users) of
+	{ok, ChannelId} -> % cannot join several channels
+	    channel_error(WebSocketId, "user already in channel. cannot join several."),
+	    {noreply, State};	       
+	error ->
+	    case maps:find(<<"channel">>, MessageMap) of
+		{ok, ChannelId} ->
+		    if
+			is_integer(ChannelId) -> 			    
+			    case dict:find(ChannelId, Channels) of
+				{ok, Members} -> % ok, channel exists, add user
+				    channel_ok(WebSocketId),
+				    {noreply, #state{users=dict:store(WebSocketId, ChannelId, Users), channels=dict:store(ChannelId, [WebSocketId|Members], Channels)}};
+				error -> % error, unknown channel id
+				    channel_error(WebSocketId, "channel unknown"),
+				    {noreply, State}
+			    end;
+			true ->
+			    channel_error(WebSocketId, "field \"channel\" must be integer")
+		    end;
+		error ->
+		    channel_error(WebSocketId, "message missing \"channel\" field"),
+		    {noreply, State}
+	    end
+    end.    
+
+channel_message(WebSocketId, MessageMap, State) ->
+    channel_notify_other_members(WebSocketId, MessageMap, State),
+    {noreply, State}.
+
+% protocol methods
+
+init() ->    
+    random:seed(),
+    {ok, #state{users=dict:new(), channels=dict:new()}}.
+
+handle_join(ServiceName, WebSocketId, State) ->
+    {noreply, State}.
+
+handle_close(ServiceName, WebSocketId, State) ->    
+    {noreply, NewState} = channel_leave(WebSocketId, State),
+    {reply, ok, NewState}.
+
+handle_incoming(ServiceName, WebSocketId, Message, State) ->
+    MessageMap = jsx:decode(Message, [return_maps]),
+    
+    case maps:find(<<"type">>, MessageMap) of
+	{ok, <<"new">>} ->
+	    channel_new(WebSocketId, State);
+	{ok, <<"join">>} ->
+	    channel_join(WebSocketId, MessageMap, State);	    
+	{ok, <<"leave">>} ->
+	    channel_leave(WebSocketId, State);
+	{ok, <<"message">>} ->
+	    channel_message(WebSocketId, MessageMap, State);
+	_ -> 
+ 	    channel_error(WebSocketId, "unknown message format"),
+	    {noreply, State}
+    end.
+
+handle_info(_,     State) ->
+  {noreply, State}.
+
+terminate(Reason, State) ->
+    ok.

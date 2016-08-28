@@ -1,0 +1,4 @@
+-module(client, [Id, SocketId]).
+-compile(export_all).
+
+-belongs_to(room).

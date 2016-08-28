@@ -1,0 +1,4 @@
+-module(message, [Id, Number]).
+-compile(export_all).
+
+-has({clients, many}).

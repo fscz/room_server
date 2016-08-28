@@ -1,0 +1,8 @@
+{application, roomserver, [
+        {description, "room server rtc applications"},
+        {vsn, "0.0.1"},
+        {modules, []},
+        {registered, []},
+        {applications, [kernel, stdlib, crypto, boss]},
+        {env, []}
+    ]}.

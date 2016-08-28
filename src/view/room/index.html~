@@ -1,0 +1,23 @@
+{% extends "app.html" %}
+{% block content %}
+
+<section id="main">
+
+  <div>
+    <button id="new">new</button>
+  </div>
+  <div>
+    <input id="channel" type="text"></input><button id="join">join</button>
+  </div>
+  <div>
+    <input id="message" type="text"></input><button id="send">send</button>
+  </div>  
+</section>
+
+{% endblock %}
+
+{% block js %}
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+  <script src="/static/js/vendor/autolink.min.js"></script>
+  <script src="/static/js/chat.js"></script>
+{% endblock %}

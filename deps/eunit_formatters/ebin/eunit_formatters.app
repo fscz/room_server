@@ -1,0 +1,10 @@
+{application,eunit_formatters,
+             [{description,"Better output for eunit suites"},
+              {vsn,"v0.3.1-1-g6818dc1"},
+              {applications,[kernel,stdlib,eunit]},
+              {env,[]},
+              {maintainers,["Sean Cribbs","Tristan Sloughter"]},
+              {licenses,["Apache2"]},
+              {links,[{"Github",
+                       "https://github.com/seancribbs/eunit_formatters"}]},
+              {modules,[binomial_heap,eunit_progress]}]}.
