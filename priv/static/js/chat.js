@@ -231,25 +231,12 @@ $(document).ready(function() {
     var roomServerClient = makeRoomServerClient({
         peerConnectionCreated: function(pc) { 
 
-            pc.onaddstream = function (event) {
-                log('stream added: '+event.stream);
-                var $video = $('<video width="800" height="600" controls/>');
-                $video.attr('src', URL.createObjectURL(event.stream));
-                $body.empty().append($video);
-            };  
-
             pc.ondatachannel = function (event) {
-                var remoteChannel = event.channel;  
-                var $img = $('<img width="100%" height="100%"/>');
-                //$body.empty().append($img);
+                var remoteChannel = event.channel;                  
 
                 remoteChannel.onmessage = function (event) {
-                    var blob = new Blob([new Uint8Array(event.data)], {type: 'image/jpeg'});
-
-                    var objectURL = urlCreator.createObjectURL(blob);
-                    $img.attr('src', objectURL);
-                    //var input = JSON.parse(String.fromCharCode.apply(null, new Uint8Array(event.data)));                    
-                    //handleInput(input);
+                    var input = JSON.parse(String.fromCharCode.apply(null, new Uint8Array(event.data)));                    
+                    handleInput(input);
                 };
                 remoteChannel.onopen = function () {
                     log("remoteChannel onopen");
